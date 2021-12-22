@@ -11,10 +11,11 @@ class MethodLoader
   end
 
   def self.resolve_file_name
-    if File.exists?(__DIR__ + "/http_status_codes.yml")
-      __DIR__ + "/http_status_codes.yml"
+    file_path = Path.new(__FILE__).dirname + "/http_status_codes.yml"
+    if File.exists?(file_path)
+      file_path
     else
-      raise "Unable to resolve status codes config"
+      raise "Unable to resolve status codes config at #{file_path.to_s}"
     end
   end
 end
