@@ -1,126 +1,163 @@
 100:
   short_description: Continue
   long_description: "The server has received the request headers and the client should proceed to send the request body (in the case of a request for which a body needs to be sent; for example, a POST request). Sending a large request body to a server after a request has been rejected for inappropriate headers would be inefficient. To have a server check the request's headers, a client must send Expect: 100-continue as a header in its initial request and receive a 100 Continue status code in response before sending the body. If the client receives an error code such as 403 (Forbidden) or 405 (Method Not Allowed) then it should not send the request's body. The response 417 Expectation Failed indicates that the request should be repeated without the Expect header as it indicates that the server does not support expectations (this is the case, for example, of HTTP/1.0 servers)."
+  rails_symbol: ":continue"
 101:
   short_description: Switching Protocols
   long_description: The requester has asked the server to switch protocols and the server has agreed to do so.
+  rails_symbol: ":switching_protocols"
 102:
   short_description: Processing (WebDAV; RFC 2518)
   long_description: A WebDAV request may contain many sub-requests involving file operations, requiring a long time to complete the request. This code indicates that the server has received and is processing the request, but no response is available yet. This prevents the client from timing out and assuming the request was lost.
+  rails_symbol: ":processing"
 103:
   short_description: Early Hints (RFC 8297)
   long_description: Used to return some response headers before final HTTP message.
 200:
   short_description: OK
   long_description: Standard response for successful HTTP requests. The actual response will depend on the request method used. In a GET request, the response will contain an entity corresponding to the requested resource. In a POST request, the response will contain an entity describing or containing the result of the action.
+  rails_symbol: ":ok"
 201:
   short_description: Created
   long_description: The request has been fulfilled, resulting in the creation of a new resource.
+  rails_symbol: ":created"
 202:
   short_description: Accepted
   long_description: The request has been accepted for processing, but the processing has not been completed. The request might or might not be eventually acted upon, and may be disallowed when processing occurs.
+  rails_symbol: ":accepted"
 203:
   short_description: Non-Authoritative Information (since HTTP/1.1)
   long_description: The server is a transforming proxy (e.g. a Web accelerator) that received a 200 OK from its origin, but is returning a modified version of the origin's response.
+  rails_symbol: ":non_authoritative_information"
 204:
   short_description: No Content
   long_description: The server successfully processed the request, and is not returning any content.
+  rails_symbol: ":no_content"
 205:
   short_description: Reset Content
   long_description: The server successfully processed the request, asks that the requester reset its document view, and is not returning any content.
+  rails_symbol: ":reset_content"
 206:
   short_description: Partial Content (RFC 7233)
   long_description: The server is delivering only part of the resource (byte serving) due to a range header sent by the client. The range header is used by HTTP clients to enable resuming of interrupted downloads, or split a download into multiple simultaneous streams.
+  rails_symbol: ":partial_content"
 207:
   short_description: Multi-Status (WebDAV; RFC 4918)
   long_description: The message body that follows is by default an XML message and can contain a number of separate response codes, depending on how many sub-requests were made.
+  rails_symbol: ":multi_status"
 208:
   short_description: Already Reported (WebDAV; RFC 5842)
   long_description: The members of a DAV binding have already been enumerated in a preceding part of the (multistatus) response, and are not being included again.
 226:
   short_description: IM Used (RFC 3229)
   long_description: The server has fulfilled a request for the resource, and the response is a representation of the result of one or more instance-manipulations applied to the current instance.
+  rails_symbol: ":im_used"
 300:
   short_description: Multiple Choices
   long_description: Indicates multiple options for the resource from which the client may choose (via agent-driven content negotiation). For example, this code could be used to present multiple video format options, to list files with different filename extensions, or to suggest word-sense disambiguation.
+  rails_symbol: ":multiple_choices"
 301:
   short_description: Moved Permanently
   long_description: This and all future requests should be directed to the given URI.
+  rails_symbol: ":moved_permanently"
 302:
   short_description: Found (Previously "Moved temporarily")
   long_description: Tells the client to look at (browse to) another URL. The HTTP/1.0 specification (RFC 1945) required the client to perform a temporary redirect with the same method (the original describing phrase was "Moved Temporarily"), but popular browsers implemented 302 redirects by changing the method to GET. Therefore, HTTP/1.1 added status codes 303 and 307 to distinguish between the two behaviours.
+  rails_symbol: ":found"
 303:
   short_description: See Other (since HTTP/1.1)
   long_description: The response to the request can be found under another URI using the GET method. When received in response to a POST (or PUT/DELETE), the client should presume that the server has received the data and should issue a new GET request to the given URI.
+  rails_symbol: ":see_other"
 304:
   short_description: Not Modified (RFC 7232)
   long_description: Indicates that the resource has not been modified since the version specified by the request headers If-Modified-Since or If-None-Match. In such case, there is no need to retransmit the resource since the client still has a previously-downloaded copy.
+  rails_symbol: ":not_modified"
 305:
   short_description: Use Proxy (since HTTP/1.1)
   long_description: The requested resource is available only through a proxy, the address for which is provided in the response. For security reasons, many HTTP clients (such as Mozilla Firefox and Internet Explorer) do not obey this status code.
+  rails_symbol: ":use_proxy"
 306:
   short_description: Switch Proxy
   long_description: No longer used. Originally meant "Subsequent requests should use the specified proxy."
 307:
   short_description: Temporary Redirect (since HTTP/1.1)
   long_description: In this case, the request should be repeated with another URI; however, future requests should still use the original URI. In contrast to how 302 was historically implemented, the request method is not allowed to be changed when reissuing the original request. For example, a POST request should be repeated using another POST request.
+  rails_symbol: ":temporary_redirect"
 308:
   short_description: Permanent Redirect (RFC 7538)
   long_description: This and all future requests should be directed to the given URI. 308 parallel the behaviour of 301, but does not allow the HTTP method to change. So, for example, submitting a form to a permanently redirected resource may continue smoothly.
 400:
   short_description: Bad Request
   long_description: The server cannot or will not process the request due to an apparent client error (e.g., malformed request syntax, size too large, invalid request message framing, or deceptive request routing).
+  rails_symbol: ":bad_request"
 401:
   short_description: Unauthorized (RFC 7235)
   long_description: "Similar to 403 Forbidden, but specifically for use when authentication is required and has failed or has not yet been provided. The response must include a WWW-Authenticate header field containing a challenge applicable to the requested resource. See Basic access authentication and Digest access authentication. 401 semantically means 'unauthorised', the user does not have valid authentication credentials for the target resource. Note: Some sites incorrectly issue HTTP 401 when an IP address is banned from the website (usually the website domain) and that specific address is refused permission to access a website."
+  rails_symbol: ":unauthorized"
 402:
   short_description: Payment Required
   long_description: Reserved for future use. The original intention was that this code might be used as part of some form of digital cash or micropayment scheme, as proposed, for example, by GNU Taler, but that has not yet happened, and this code is not widely used. Google Developers API uses this status if a particular developer has exceeded the daily limit on requests. Sipgate uses this code if an account does not have sufficient funds to start a call. Shopify uses this code when the store has not paid their fees and is temporarily disabled. Stripe uses this code for failed payments where parameters were correct, for example blocked fraudulent payments.
+  rails_symbol: ":payment_required"
 403:
   short_description: Forbidden
   long_description: The request contained valid data and was understood by the server, but the server is refusing action. This may be due to the user not having the necessary permissions for a resource or needing an account of some sort, or attempting a prohibited action (e.g. creating a duplicate record where only one is allowed). This code is also typically used if the request provided authentication by answering the WWW-Authenticate header field challenge, but the server did not accept that authentication. The request should not be repeated.
+  rails_symbol: ":forbidden"
 404:
   short_description: Not Found
   long_description: The requested resource could not be found but may be available in the future. Subsequent requests by the client are permissible.
+  rails_symbol: ":not_found"
 405:
   short_description: Method Not Allowed
   long_description: A request method is not supported for the requested resource; for example, a GET request on a form that requires data to be presented via POST, or a PUT request on a read-only resource.
+  rails_symbol: ":method_not_allowed"
 406:
   short_description: Not Acceptable
   long_description: The requested resource is capable of generating only content not acceptable according to the Accept headers sent in the request. See Content negotiation.
+  rails_symbol: ":not_acceptable"
 407:
   short_description: Proxy Authentication Required (RFC 7235)
   long_description: The client must first authenticate itself with the proxy.
+  rails_symbol: ":proxy_authentication_required"
 408:
   short_description: Request Timeout
   long_description: "The server timed out waiting for the request. According to HTTP specifications: 'The client did not produce a request within the time that the server was prepared to wait. The client MAY repeat the request without modifications at any later time.'"
+  rails_symbol: ":request_timeout"
 409:
   short_description: Conflict
   long_description: Indicates that the request could not be processed because of conflict in the current state of the resource, such as an edit conflict between multiple simultaneous updates.
+  rails_symbol: ":conflict"
 410:
   short_description: Gone
   long_description: Indicates that the resource requested is no longer available and will not be available again. This should be used when a resource has been intentionally removed and the resource should be purged. Upon receiving a 410 status code, the client should not request the resource in the future. Clients such as search engines should remove the resource from their indices. Most use cases do not require clients and search engines to purge the resource, and a "404 Not Found" may be used instead.
+  rails_symbol: ":gone"
 411:
   short_description: Length Required
   long_description: The request did not specify the length of its content, which is required by the requested resource.
+  rails_symbol: ":length_required"
 412:
   short_description: Precondition Failed (RFC 7232)
   long_description: The server does not meet one of the preconditions that the requester put on the request header fields.
+  rails_symbol: ":precondition_failed"
 413:
   short_description: Payload Too Large (RFC 7231)
   long_description: The request is larger than the server is willing or able to process. Previously called "Request Entity Too Large".
+  rails_symbol: ":request_entity_too_large"
 414:
   short_description: URI Too Long (RFC 7231)
   long_description: The URI provided was too long for the server to process. Often the result of too much data being encoded as a query-string of a GET request, in which case it should be converted to a POST request. Called "Request-URI Too Long" previously.
+  rails_symbol: ":request_uri_too_long"
 415:
   short_description: Unsupported Media Type (RFC 7231)
   long_description: The request entity has a media type which the server or resource does not support. For example, the client uploads an image as image/svg+xml, but the server requires that images use a different format.
+  rails_symbol: ":unsupported_media_type"
 416:
   short_description: Range Not Satisfiable (RFC 7233)
   long_description: The client has asked for a portion of the file (byte serving), but the server cannot supply that portion. For example, if the client asked for a part of the file that lies beyond the end of the file. Called "Requested Range Not Satisfiable" previously.
+  rails_symbol: ":requested_range_not_satisfiable"
 417:
   short_description: Expectation Failed
   long_description: The server cannot meet the requirements of the Expect request-header field.
+  rails_symbol: ":expectation_failed"
 418:
   short_description: I'm a teapot (RFC 2324, RFC 7168)
   long_description: This code was defined in 1998 as one of the traditional IETF April Fools' jokes, in RFC 2324, Hyper Text Coffee Pot Control Protocol, and is not expected to be implemented by actual HTTP servers. The RFC specifies this code should be returned by teapots requested to brew coffee. This HTTP status is used as an Easter egg in some websites, such as Google.com's I'm a teapot easter egg.
@@ -130,18 +167,22 @@
 422:
   short_description: Unprocessable Entity (WebDAV; RFC 4918)
   long_description: The request was well-formed but was unable to be followed due to semantic errors.
+  rails_symbol: ":unprocessable_entity"
 423:
   short_description: Locked (WebDAV; RFC 4918)
   long_description: The resource that is being accessed is locked.
+  rails_symbol: ":locked"
 424:
   short_description: Failed Dependency (WebDAV; RFC 4918)
   long_description: The request failed because it depended on another request and that request failed (e.g., a PROPPATCH).
+  rails_symbol: ":failed_dependency"
 425:
   short_description: Too Early (RFC 8470)
   long_description: Indicates that the server is unwilling to risk processing a request that might be replayed.
 426:
   short_description: Upgrade Required
   long_description: The client should switch to a different protocol such as TLS/1.3, given in the Upgrade header field.
+  rails_symbol: ":upgrade_required"
 428:
   short_description: Precondition Required (RFC 6585)
   long_description: The origin server requires the request to be conditional. Intended to prevent the 'lost update' problem, where a client GETs a resource's state, modifies it, and PUTs it back to the server, when meanwhile a third party has modified the state on the server, leading to a conflict.
@@ -157,33 +198,41 @@
 500:
   short_description: Internal Server Error
   long_description: A generic error message, given when an unexpected condition was encountered and no more specific message is suitable.
+  rails_symbol: ":internal_server_error"
 501:
   short_description: Not Implemented
   long_description: The server either does not recognize the request method, or it lacks the ability to fulfil the request. Usually this implies future availability (e.g., a new feature of a web-service API).
+  rails_symbol: ":not_implemented"
 502:
   short_description: Bad Gateway
   long_description: The server was acting as a gateway or proxy and received an invalid response from the upstream server.
+  rails_symbol: ":bad_gateway"
 503:
   short_description: Service Unavailable
   long_description: The server cannot handle the request (because it is overloaded or down for maintenance). Generally, this is a temporary state.
+  rails_symbol: ":service_unavailable"
 504:
   short_description: Gateway Timeout
   long_description: The server was acting as a gateway or proxy and did not receive a timely response from the upstream server.
+  rails_symbol: ":gateway_timeout"
 505:
   short_description: HTTP Version Not Supported
   long_description: The server does not support the HTTP protocol version used in the request.
+  rails_symbol: ":http_version_not_supported"
 506:
   short_description: Variant Also Negotiates (RFC 2295)
   long_description: Transparent content negotiation for the request results in a circular reference.
 507:
   short_description: Insufficient Storage (WebDAV; RFC 4918)
   long_description: The server is unable to store the representation needed to complete the request.
+  rails_symbol: ":insufficient_storage"
 508:
   short_description: Loop Detected (WebDAV; RFC 5842)
   long_description: The server detected an infinite loop while processing the request (sent instead of 208 Already Reported).
 510:
   short_description: Not Extended (RFC 2774)
   long_description: Further extensions to the request are required for the server to fulfil it.
+  rails_symbol: ":not_extended"
 511:
   short_description: Network Authentication Required (RFC 6585)
   long_description: The client needs to authenticate to gain network access. Intended for use by intercepting proxies used to control access to the network (e.g., "captive portals" used to require agreement to Terms of Service before granting full Internet access via a Wi-Fi hotspot).

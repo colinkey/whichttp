@@ -4,12 +4,12 @@ class Cli
   struct CliOptions
     property code, symbol
 
-    def initialize(@code : String, @symbol : String|Nil)
+    def initialize(@code : String?, @symbol : String?)
     end
   end
 
   def self.call
-    code = "200"
+    code = nil
     symbol = nil
     OptionParser.parse do |parser|
       parser.on "-c PASSED_CODE", "--code PASSED_CODE", "Look up status by code. Default behavior of Whichttp and flag is optional" do |passed_code|
@@ -21,7 +21,7 @@ class Cli
       end
 
       parser.unknown_args do |args|
-        code = args.first
+        code = args.first unless args.empty?
       end
     end
 
