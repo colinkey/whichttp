@@ -1,6 +1,6 @@
 # whichttp
 
-A CLI for looking up http status codes by code
+A CLI for looking up http status codes by code or rails symbol
 
 ## Installation
 
@@ -9,7 +9,7 @@ A CLI for looking up http status codes by code
 
 ## Usage
 
-Build the binary with `crystal build ./src/whichttp.cr`. Run with `./whichttp <STATUS CODE>`.
+Build the binary with `shards build`. Run with `./bin/whichttp <STATUS CODE>`.
 
 ## Development
 
