@@ -1,31 +1,31 @@
-require "yaml"
 require "./cli"
+require "./method_loader"
 
 class Consumer
-  def initialize(cli_options : Cli::CliOptions, yaml : YAML::Any)
+  def initialize(cli_options : Cli::CliOptions, http_methods_config : MethodLoader::HttpStatusObject)
     @options = cli_options
-    @yaml = yaml
+    @http_methods_config = http_methods_config
   end
 
   def process
     reject_invalid_params
-    pretty_print_status yaml[code]
+    pretty_print_status
   rescue
     puts "Whichttp was unable to find anything worthwhile for you. Perhaps your arguments are unexpected?"
   end
 
   def status_code_from_symbol
-    yaml_key = 200
-    yaml.as_h.each do |k, v|
-      if v.as_h.has_key?("rails_symbol") && v.as_h["rails_symbol"].to_s == symbol
-        yaml_key = k
+    http_methods_config_key = 200
+    http_methods_config.each do |k, v|
+      if v.has_key?("rails_symbol") && v["rails_symbol"] == symbol
+        http_methods_config_key = k
       end
     end
-    yaml_key
+    http_methods_config_key
   end
 
-  def yaml
-    @yaml
+  def http_methods_config
+    @http_methods_config
   end
 
   def code
@@ -40,11 +40,12 @@ class Consumer
     @options.symbol
   end
 
-  private def pretty_print_status(status_code_object)
+  private def pretty_print_status
+    status_code_object = http_methods_config[code]
     puts "HTTP CODE: #{code.to_s} #{status_code_object["short_description"]}"
     puts "============"
     puts status_code_object["long_description"]
-    if status_code_object.as_h.has_key? "rails_symbol"
+    if status_code_object.has_key? "rails_symbol"
       puts "============"
       puts "Rails symbol #{status_code_object["rails_symbol"]}"
     end
@@ -59,14 +60,14 @@ class Consumer
   end
 
   private def valid_codes
-    yaml.as_h.keys
+    http_methods_config.keys
   end
 
   private def valid_symbols
     symbols = [] of String
-    yaml.as_h.each do |k, v|
-      if v.as_h.has_key?("rails_symbol")
-        symbols << v.as_h["rails_symbol"].to_s
+    http_methods_config.each do |k, v|
+      if v.has_key?("rails_symbol")
+        symbols << v["rails_symbol"]
       end
     end
     symbols
