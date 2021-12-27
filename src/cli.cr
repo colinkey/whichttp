@@ -32,7 +32,7 @@ class Cli
       end
 
       parser.unknown_args do |args|
-        code = args.first unless args.empty?
+        passed_code = args.first unless args.empty?
       end
     end
 
